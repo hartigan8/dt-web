@@ -13,7 +13,6 @@ function Login() {
     const [registerName, setRegisterName] = React.useState('');
     const [registerSurname, setRegisterSurname] = React.useState('');
     const [registerPhonenumber, setRegisterPhonenumber] = React.useState('');
-    const [registerHeight, setRegisterHeight] = React.useState('');
     const [step, setStep] = React.useState(1);
     const [gender, setGender]= React.useState('');
     let navigate = useNavigate();
@@ -25,7 +24,7 @@ function Login() {
             }
             setStep(step + 1);
         } else if (step === 2) {
-            if (registerPhonenumber === '' || registerHeight === '' || gender === '') {
+            if (registerPhonenumber === '' || gender === '') {
                 console.log('Please fill in all fields for Step 2');
                 return;
             }
@@ -43,9 +42,7 @@ function Login() {
     const handleGender = (value) =>{
         setGender(value)
     }
-    const handleRegisterHeight = (value) =>{
-        setRegisterHeight(value)
-    }
+   
     const handleRegisterSurnaname = (value) =>{
         setRegisterSurname(value)
     }
@@ -79,7 +76,7 @@ function Login() {
         }
         */
         try {
-            const response = await fetch('http://localhost:8080/auth/register', {
+            const response = await fetch('https://deudtchronicillness.eastus2.cloudapp.azure.com/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -89,7 +86,6 @@ function Login() {
                     Surname: registerSurname,
                     email: registerMail,
                     Phonenumber: registerPhonenumber,
-                    height : registerHeight,
                     password: registerPassword,
                 }),
             });
@@ -99,7 +95,7 @@ function Login() {
                 // Save the tokens. You might want to save them in localStorage or in a state management library
                 localStorage.setItem('access_token', data.access_token);
                 localStorage.setItem('refresh_token', data.refresh_token);
-                navigate('/Home');
+                navigate('/home');
                 // Redirect the user or perform other actions like updating the UI
             } else {
                 // Handle errors - data might include error message
@@ -120,7 +116,7 @@ function Login() {
         }
         */
         try {
-            const response = await fetch('http://localhost:8080/auth/login', {
+            const response = await fetch('https://deudtchronicillness.eastus2.cloudapp.azure.com/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -137,7 +133,7 @@ function Login() {
                 localStorage.setItem('access_token', data.access_token);
                 localStorage.setItem('refresh_token', data.refresh_token);
                 // Redirect the user or perform other actions like updating the UI
-                navigate('/Home');
+                navigate("/home");
             } else {
                 // Handle errors - data might include error message
                 console.error(data.message);
@@ -164,8 +160,7 @@ function Login() {
                 <Components.SignUpContainer signinIn={login}>
                     <Components.Form onSubmit={nextStep}>
                         <Components.Title>Create Account</Components.Title>
-                        <Components.Input type='number' placeholder='Phonenumber' onChange={(e) => handleRegisterPhoneNumber(e.target.value)} />
-                        <Components.Input type='number' placeholder='Height' onChange={(e) => handleRegisterHeight(e.target.value)} />                       
+                        <Components.Input type='number' placeholder='Phonenumber' onChange={(e) => handleRegisterPhoneNumber(e.target.value)} />                                             
                         <select value={gender} onChange={(e) => handleGender(e.target.value)}>
                             <option value="">Select Gender</option>
                             <option value="male">Male</option>
