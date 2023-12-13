@@ -10,49 +10,23 @@ import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { useState } from "react"; // Import useState
 import { Navigate } from "react-router-dom";
+import PatientDetails from "./pages/patientDetails/PatientDetails";
 
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
-  const [isLoggedIn, setLoggedIn] = useState(false);
-  
-  const handleLogin = () => {
-    // Your login logic here
-    // After successful login, setLoggedIn(true);
-    setLoggedIn(true);
-  };
+
+  // <Route path="*" element={<Navigate to="/" />} />
   return (
     <div className={darkMode ? "app dark" : "app"}>
       <BrowserRouter>
         <Routes>
-          <Route path="/">
-            {!isLoggedIn ? (
-              <Route index element={<Login />} />
-            ) : (
-              <>
-                <Route index element={<Home />} />
-                <Route path="users">
-                  <Route index element={<List />} />
-                  <Route path=":userId" element={<Single />} />
-                  <Route
-                    path="new"
-                    element={<New inputs={userInputs} title="Add New User" />}
-                  />
-                </Route>
-                <Route path="products">
-                  <Route index element={<List />} />
-                  <Route path=":productId" element={<Single />} />
-                  <Route
-                    path="new"
-                    element={
-                      <New inputs={productInputs} title="Add New Product" />
-                    }
-                  />
-                </Route>
-              </>
-            )}
-            <Route path="login" element={<Login onLogin={handleLogin} />} />
-          </Route>
+          <Route path="/" element={<Login />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/new" element={<New />} />
+          <Route path="/product/:id" element={<Single />} />
+          <Route path="/products" element={<List />} />
+          <Route path="/patientDetails/:id" element={<PatientDetails/>} />
         </Routes>
       </BrowserRouter>
     </div>

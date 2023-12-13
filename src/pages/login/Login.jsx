@@ -91,6 +91,7 @@ function Login() {
             });
     
             const data = await response.json();
+            // TODO if tokens already exist do not load sign in page instead of it load home page
             if (response.ok) {
                 // Save the tokens. You might want to save them in localStorage or in a state management library
                 localStorage.setItem('access_token', data.access_token);
