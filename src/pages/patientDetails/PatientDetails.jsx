@@ -115,6 +115,10 @@ const PatientDetails = () => {
     };
 
     const handleButtonClick = () => {
+        if(convertToEpochTime(startDate) > convertToEpochTime(endDate)){
+            alert("Start date must be before end date");
+            return;
+        }
         setWaterRows([]);
         setWeightRows([]);
         if (waterIntakeChecked){
