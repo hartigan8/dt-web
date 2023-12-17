@@ -45,10 +45,21 @@ const PatientDetails = () => {
 
             const data = await response.json();
             if (response.ok) {
-                const newData = data.map(item => ({
-                    volume: item.volume,
-                    date: convertToDate(item.date),
-                }));
+                const groupedData = data.reduce((acc, item) => {
+                    const date = convertToDate(item.date);
+                    if (!acc[date]) {
+                      acc[date] = { date, totalVolume: item.volume };
+                    } else {
+                      acc[date].totalVolume += item.volume;
+                    }
+                    return acc;
+                  }, {});
+                
+                  // Convert grouped data to array
+                  const newData = Object.values(groupedData).map(item => ({
+                    volume: item.totalVolume,
+                    date: item.date,
+                  }));
                 setWaterRows(newData);
             } 
             else {
@@ -76,10 +87,22 @@ const PatientDetails = () => {
 
             const data = await response.json();
             if (response.ok) {
-                const newData = data.map(item => ({
-                    measure: item.measure,
-                    date: convertToDate(item.date),
-                }));
+                const groupedData = data.reduce((acc, item) => {
+                    const date = convertToDate(item.date);
+                    if (!acc[date]) {
+                      acc[date] = { date, totalMeasure: item.measure, count: 1 };
+                    } else {
+                      acc[date].totalMeasure += item.measure;
+                      acc[date].count += 1;
+                    }
+                    return acc;
+                  }, {});
+                
+                  // Convert grouped data to array and calculate average measure
+                  const newData = Object.values(groupedData).map(item => ({
+                    measure: item.totalMeasure / item.count,
+                    date: item.date,
+                  }));
                 setWeightRows(newData);
             } 
             else {

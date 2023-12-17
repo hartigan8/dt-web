@@ -56,7 +56,7 @@ const Chart = ({ aspect, title, weight, waterIntake }) => {
               type="monotone"
               dataKey="measure"
               stroke="#8884d8"
-              fillOpacity={1}
+              fillOpacity={0}
               fill="url(#measure)"
             />
           )}
@@ -65,7 +65,7 @@ const Chart = ({ aspect, title, weight, waterIntake }) => {
               type="monotone"
               dataKey="volume"
               stroke="#82ca9d"
-              fillOpacity={1}
+              fillOpacity={0}
               fill="url(#waterIntake)"
             />
           )}
